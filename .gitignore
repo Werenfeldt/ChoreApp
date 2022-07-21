@@ -63,8 +63,8 @@ dlldata.c
 BenchmarkDotNet.Artifacts/
 
 # .NET Core
-chore.lock.json
-chore.fragment.lock.json
+web.lock.json
+web.fragment.lock.json
 artifacts/
 
 # ASP.NET Scaffolding

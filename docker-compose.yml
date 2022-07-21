@@ -26,7 +26,7 @@ services:
     image: server
     build:
       context: .
-      dockerfile: ./Chore/Dockerfile
+      dockerfile: ./Web/Dockerfile
     environment:
       ConnectionStrings__Chore:
     ports:
