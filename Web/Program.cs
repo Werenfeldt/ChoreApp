@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddKeyPerFile("/run/secrets", optional: true);
 
-builder.Services.AddDbContext<ChoreAppContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Chore")));
+builder.Services.AddDbContext<ChoreAppContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ChoreApp")));
 
 // Add services to the container.
 builder.Services.AddRazorPages();
