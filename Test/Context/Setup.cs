@@ -1,10 +1,11 @@
-namespace Tests;
+
+namespace Test;
 public abstract class Setup
 {
     protected readonly ChoreAppContext _context;
-    protected readonly ChoreRepository _projectRepository;
+    protected readonly ChoreRepository _choreRepository;
     //protected readonly UserRepository _userRepository;
-    public ContextSetup()
+    public Setup()
     {
         var connection = new SqliteConnection("Filename=:memory:");
         connection.Open();
@@ -14,7 +15,7 @@ public abstract class Setup
         context.Database.EnsureCreated();
 
         _context = context;
-        _ChoreRepository = new ChoreRepository(_context);
+        _choreRepository = new ChoreRepository(_context);
         //_userRepository = new UserRepository(_context);
     }
 }

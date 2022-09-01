@@ -2,9 +2,26 @@ namespace Infrastructure;
 
 public class ChoreRepository : IChoreRepository
 {
-    public Task<ChoreDTO> CreateChoreAsync(CreateChoreDTO chore)
+    public readonly IChoreAppContext _context;
+
+    public ChoreRepository(IChoreAppContext context)
     {
-        throw new NotImplementedException();
+        _context = context;
+    }
+    public async Task<ChoreDTO> CreateChoreAsync(CreateChoreDTO chore)
+    {
+        var entity = new Chore(chore.Name, chore.Duration, chore.Interval, chore.OneTimer)
+        {
+            Description = chore.Description, 
+            Created = DateTime.UtcNow,
+            CreatedByUserId = chore.CreatedByUserId,
+            FamilyId = chore.FamilyId,
+        };
+
+        _context.Chores.Add(entity);
+        await _context.SaveChangesAsync();
+
+        return new ChoreDTO(entity.Id, entity.Name);
     }
 
     public Task<Response> DeleteChoreByIdAsync(Guid choreId)
