@@ -8,11 +8,11 @@ public class ChoreRepository : IChoreRepository
     {
         _context = context;
     }
-    public async Task<ChoreDTO> CreateChoreAsync(CreateChoreDTO chore)
+    public async Task<ChoreDetailedDTO> CreateChoreAsync(CreateChoreDTO chore)
     {
         var entity = new Chore(chore.Name, chore.Duration, chore.Interval, chore.OneTimer)
         {
-            Description = chore.Description, 
+            Description = chore.Description,
             Created = DateTime.UtcNow,
             CreatedByUserId = chore.CreatedByUserId,
             FamilyId = chore.FamilyId,
@@ -21,7 +21,7 @@ public class ChoreRepository : IChoreRepository
         _context.Chores.Add(entity);
         await _context.SaveChangesAsync();
 
-        return new ChoreDTO(entity.Id, entity.Name);
+        return new ChoreDetailedDTO(entity.Id, entity.Name, entity.Duration.ToString(), entity.Interval.ToString(), entity.Description, entity.Created, entity.OneTimer ? "Ja" : "Nej");
     }
 
     public Task<Response> DeleteChoreByIdAsync(Guid choreId)
@@ -39,9 +39,15 @@ public class ChoreRepository : IChoreRepository
         throw new NotImplementedException();
     }
 
-    public Task<Option<ChoreDTO>> ReadChoreByIdAsync(Guid choreId)
+    public async Task<Option<ChoreDTO>> ReadChoreByIdAsync(Guid choreId)
     {
-        throw new NotImplementedException();
+        var entity = await _context.Chores.FirstOrDefaultAsync(c => c.Id == choreId);
+
+        if (entity != null)
+        {
+            return new ChoreDTO(entity.Id, entity.Name);
+        }
+        return null;
     }
 
     public Task<IReadOnlyCollection<ChoreDTO>> ReadChoresByFamilyIdAsync(Guid familyId)

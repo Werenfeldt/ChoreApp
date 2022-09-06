@@ -1,7 +1,7 @@
 namespace Core;
 public record ChoreDTO(Guid Id, string? Name);
 
-public record ChoreDetailedDTO(string Id, string? Name, string? Description, string Duration);
+public record ChoreDetailedDTO(Guid Id, string? Name, string Duration, string Interval, string? Description, DateTime Created, string Onetimer);
 
 public record CreateChoreDTO
 {
@@ -17,7 +17,7 @@ public record CreateChoreDTO
     [DataType(DataType.Date)]
     public DateTime? Created { get; init; }
 
-    public Guid CreatedByUserId { get; init; }
+    public Guid? CreatedByUserId { get; init; }
 
     public Guid FamilyId { get; init; }
     public bool OneTimer { get; set; }
