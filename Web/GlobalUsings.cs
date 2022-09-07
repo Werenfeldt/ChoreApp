@@ -6,5 +6,6 @@ global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.Identity.Web.Resource;
 
 global using Infrastructure;
+global using Core;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.Identity.Web;

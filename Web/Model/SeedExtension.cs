@@ -1,4 +1,4 @@
-namespace Web;
+namespace Web.Model;
 
 public static class SeedExtension
 {
@@ -21,6 +21,31 @@ public static class SeedExtension
 
         var userRepository = new UserRepository(context);
         var familyRepository = new FamilyRepository(context);
-        var ProjectRepository = new ChoreRepository(context);
+        var choreRepository = new ChoreRepository(context);
+
+        var family = await familyRepository.CreateFamilyAsync(new CreateFamilyDTO
+        {
+            Name = "Nielsen"
+        });
+
+        var user = await userRepository.CreateUserAsync(new CreateUserDTO
+        {
+            Id = Guid.NewGuid(),
+            Name = "Marie Nielsen",
+            Age = 30,
+            Family = family
+        });
+
+        await choreRepository.CreateChoreAsync(new CreateChoreDTO
+        {
+            Name = "Støvsug",
+            Duration = Duration.OneHour,
+            Interval = Interval.OneWeek,
+            Description = "Støvsug hele huset også kælder",
+            Created = DateTime.UtcNow,
+            CreatedByUserId = user.Id,
+            FamilyId = family.Id,
+            OneTimer = false
+        });
     }
 }
