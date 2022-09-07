@@ -8,8 +8,12 @@ public abstract class Setup
     protected readonly SqliteConnection _connection;
 
     protected readonly ChoreRepository _choreRepository;
+    protected readonly UserRepository _userRepository;
+    protected readonly FamilyRepository _familyRepository;
 
+    protected readonly Guid _userId;
     protected readonly Guid _choreId;
+    protected readonly Guid _familyId;
 
     public Setup()
     {
@@ -27,8 +31,12 @@ public abstract class Setup
         _contextOption = contextOption;
         _connection = connection;
         _choreId = Guid.NewGuid();
+        _userId = Guid.NewGuid();
+        _familyId = Guid.NewGuid();
 
         _choreRepository = new ChoreRepository(_context);
+        _userRepository = new UserRepository(_context);
+        _familyRepository = new FamilyRepository(_context);
 
 
         //Seeds TestDate
@@ -37,8 +45,8 @@ public abstract class Setup
 
     public void Seed()
     {
-        var family = new Family("Nielsen") { };
-        var user = new User("Marie Nielsen") { Family = family };
+        var family = new Family("Nielsen") {Id = _familyId};
+        var user = new User(_userId, "Marie Nielsen") { Family = family };
         var chore = new Chore("Støvsug", Duration.TwentyMinutes, Interval.OneWeek)
         {
             Id = _choreId,

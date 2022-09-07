@@ -1,7 +1,7 @@
 namespace Core;
-public record FamilyDTO(string Id, string? Name);
+public record FamilyDTO(Guid Id, string? Name);
 
-public record FamilyDetailsDTO(string Id, string? Name, IReadOnlyCollection<ChoreDTO>? Chores, IReadOnlyCollection<UserDTO> FamilyMembers);
+public record FamilyDetailsDTO(Guid Id, string? Name, IReadOnlyCollection<ChoreDTO>? Chores, IReadOnlyCollection<UserDTO>? FamilyMembers);
 
 public record CreateFamilyDTO
 {

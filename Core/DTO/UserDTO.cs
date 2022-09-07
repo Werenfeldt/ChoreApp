@@ -1,21 +1,22 @@
 namespace Core;
-public record UserDTO(string Id, string? Name);
-public record UserDetailsDTO(string Id, string? Name, int Age, Family FamilyName);
+public record UserDTO(Guid Id, string? Name);
+public record UserDetailsDTO(Guid Id, string? Name, int? Age, string FamilyName);
 public record CreateUserDTO
 {
-    
+    public Guid Id { get; set; }
+
     [StringLength(50)]
     public string? Name { get; set; }
 
     public int? Age { get; set; }
 
     [Required]
-    public Family? FamilyName { get; set; }
+    public FamilyDTO? Family { get; set; }
 }
 
 public record UpdateUserDTO : CreateUserDTO
 {
-    public string? Id { get; set; }
+
     public ICollection<ChoreDTO>? ChoresCreated { get; set; }
     public ICollection<WorkTimeSlotDTO>? WorkTimeslots { get; set; }
 

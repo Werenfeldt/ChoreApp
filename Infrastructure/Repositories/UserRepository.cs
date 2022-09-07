@@ -8,13 +8,38 @@ public class UserRepository : IUserRepository
     {
         _context = context;
     }
-    public Task<UserDTO> CreateUserAsync(CreateUserDTO user)
+    public async Task<UserDTO> CreateUserAsync(CreateUserDTO user)
     {
-        throw new NotImplementedException();
+        var existUser = await _context.Users.FindAsync(user.Id);
+        var family = await _context.Families.FindAsync(user.Family.Id);
+
+        if (existUser == null)
+        {
+            var entity = new User(user.Id, user.Name) { Age = user.Age, Family = family };
+
+            _context.Users.Add(entity);
+
+            await _context.SaveChangesAsync();
+
+            return new UserDTO(
+                entity.Id,
+                entity.Name
+            );
+        }
+
+        return new UserDTO(
+                existUser.Id,
+                existUser.Name
+            );
     }
 
-    public Task<Option<UserDetailsDTO>> ReadUserByIdAsync(Guid id)
+    public async Task<Option<UserDetailsDTO>> ReadUserByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var user = await _context.Users.FindAsync(id);
+        if (user != null)
+        {
+            return new UserDetailsDTO(user.Id, user.Name, user.Age, user.Family.Name);
+        }
+        return null;
     }
 }
