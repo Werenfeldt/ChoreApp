@@ -24,19 +24,43 @@ public class ChoreRepository : IChoreRepository
         return new ChoreDetailedDTO(entity.Id, entity.Name, entity.Duration.ToString(), entity.Interval.ToString(), entity.Description, entity.Created, entity.OneTimer ? "Ja" : "Nej");
     }
 
-    public Task<Response> DeleteChoreByIdAsync(Guid choreId)
+    public async Task<Response> DeleteChoreByIdAsync(Guid choreId)
     {
-        throw new NotImplementedException();
+        var entity = await _context.Chores.FindAsync(choreId);
+
+        if (entity != null)
+        {
+            _context.Chores.Remove(entity);
+            await _context.SaveChangesAsync();
+            return Response.Deleted;
+        }
+        return Response.NotFound;
     }
 
-    public Task<Response> EditChoreAsync(Guid choreId, UpdateChoreDTO chore)
+    public async Task<Response> EditChoreAsync(Guid choreId, UpdateChoreDTO chore)
     {
-        throw new NotImplementedException();
+        var entity = await _context.Chores.FindAsync(choreId);
+
+        if (entity != null)
+        {
+            entity.Name = chore.Name;
+            entity.Description = chore.Description;
+            entity.Duration = chore.Duration;
+            entity.Interval = chore.Interval;
+            entity.OneTimer = chore.OneTimer;
+
+            await _context.SaveChangesAsync();
+            return Response.Updated;
+        }
+        return Response.NotFound;
+
     }
 
-    public Task<IReadOnlyCollection<ChoreDTO>> ReadAllChoresAsync()
+    public async Task<IReadOnlyCollection<ChoreDTO>> ReadAllChoresAsync(Guid familyId)
     {
-        throw new NotImplementedException();
+        var family = await _context.Families.Include(f => f.Chores).FirstOrDefaultAsync(f => f.Id ==familyId);
+        
+        return family.Chores.Select(c => new ChoreDTO(c.Id, c.Name)).ToList();
     }
 
     public async Task<Option<ChoreDTO>> ReadChoreByIdAsync(Guid choreId)
@@ -50,8 +74,14 @@ public class ChoreRepository : IChoreRepository
         return null;
     }
 
-    public Task<IReadOnlyCollection<ChoreDTO>> ReadChoresByFamilyIdAsync(Guid familyId)
+    public async Task<Option<ChoreDetailedDTO>> ReadDetailedChoreByIdAsync(Guid choreId)
     {
-        throw new NotImplementedException();
+        var entity = await _context.Chores.FirstOrDefaultAsync(c => c.Id == choreId);
+
+        if (entity != null)
+        {
+            return new ChoreDetailedDTO(entity.Id, entity.Name, entity.Duration.ToString(), entity.Interval.ToString(), entity.Description, entity.Created, entity.OneTimer ? "Ja" : "Nej");
+        }
+        return null;
     }
 }

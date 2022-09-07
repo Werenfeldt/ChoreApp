@@ -25,7 +25,7 @@ public record CreateChoreDTO
 
 public record UpdateChoreDTO : CreateChoreDTO
 {
-    public string? Id { get; set; }
+    public Guid Id { get; set; }
 
     public ICollection<WorkEvent>? WorkEvent { get; set; }
 

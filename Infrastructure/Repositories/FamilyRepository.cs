@@ -10,7 +10,11 @@ public class FamilyRepository : IFamilyRepository
     }
     public async Task<FamilyDTO> CreateFamilyAsync(CreateFamilyDTO user)
     {
-        var entity = new Family(user.Name);
+        var entity = new Family(user.Name)
+        {
+            Chores = new List<Chore>(),
+            Users = new List<User>()
+        };
 
         _context.Families.Add(entity);
 
@@ -24,7 +28,7 @@ public class FamilyRepository : IFamilyRepository
 
     public async Task<Option<FamilyDetailsDTO>> ReadFamilyByIdAsync(Guid id)
     {
-        var family = await _context.Families.FindAsync(id);
+        var family = await _context.Families.Include(f => f.Chores).FirstOrDefaultAsync(f => f.Id == id);
         if (family != null)
         {
             return new FamilyDetailsDTO(
