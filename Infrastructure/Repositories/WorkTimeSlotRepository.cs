@@ -36,18 +36,36 @@ public class WorkTimeSlotRepository : IWorkTimeSlotRepository
         return Response.NotFound;
     }
 
-    public Task<Response> EditWorkTimeSlotAsync(Guid workTimeSlotId, UpdateWorkTimeSlotDTO workTimeSlot)
+    public async Task<Response> EditWorkTimeSlotAsync(Guid workTimeSlotId, UpdateWorkTimeSlotDTO workTimeSlot)
     {
-        throw new NotImplementedException();
+        var entity = await _context.WorkTimeslots.FindAsync(workTimeSlotId);
+
+        if (entity != null)
+        {
+            entity.Duration = workTimeSlot.Duration;
+            entity.Weekday = workTimeSlot.Weekday;
+
+            await _context.SaveChangesAsync();
+            return Response.Updated;
+        }
+        return Response.NotFound;
     }
 
-    public Task<IReadOnlyCollection<WorkTimeSlotDTO>> ReadAllWorkTimeSlotByUserIdAsync(Guid userId)
+    public async Task<Option<WorkTimeSlotDTO>> ReadWorkTimeSlotByIdAsync(Guid workTimeSlotId)
     {
-        throw new NotImplementedException();
+        var entity = await _context.WorkTimeslots.FindAsync(workTimeSlotId);
+
+        if (entity != null)
+        {
+            return new WorkTimeSlotDTO(entity.Id, entity.Duration.ToString(), entity.Weekday.ToString());
+        }
+        return null;
+    }
+    public async Task<IReadOnlyCollection<WorkTimeSlotDTO>> ReadAllWorkTimeSlotByUserIdAsync(Guid userId)
+    {
+        var user = await _context.Users.Include(w => w.WorkTimeslots).FirstOrDefaultAsync(u => u.Id == userId);
+
+        return user.WorkTimeslots.Select(w => new WorkTimeSlotDTO(w.Id, w.Duration.ToString(), w.Weekday.ToString())).ToList();
     }
 
-    public Task<Option<WorkTimeSlotDTO>> ReadWorkTimeSlotByIdAsync(Guid workTimeSlotId)
-    {
-        throw new NotImplementedException();
-    }
 }
