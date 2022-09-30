@@ -112,6 +112,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Core.WorkEvent", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AssignedToUserId")
@@ -123,13 +124,13 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateDone")
+                    b.Property<DateTime>("DateDone")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("DoneByUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id", "AssignedToUserId", "ChoreId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AssignedToUserId");
 

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ChoreAppContext))]
-    [Migration("20220930122721_WorkEventUpdate")]
+    [Migration("20220930182429_WorkEventUpdate")]
     partial class WorkEventUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -114,6 +114,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Core.WorkEvent", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AssignedToUserId")
@@ -125,13 +126,13 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateDone")
+                    b.Property<DateTime>("DateDone")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("DoneByUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id", "AssignedToUserId", "ChoreId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AssignedToUserId");
 

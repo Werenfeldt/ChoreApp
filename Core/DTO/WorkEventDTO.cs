@@ -1,6 +1,6 @@
 namespace Core;
-public record WorkEventDTO(Guid Id, ChoreDTO Chore, string DateDone, UserDTO AssignedTo, UserDTO DoneBy);
-
+public record WorkEventDTO(Guid Id, string ChoreName, string AssignedToName, DateTime CreatedDate);
+public record WorkEventDetailedDTO(Guid Id, string ChoreName, string AssignedToName, DateTime CreatedDate, string DoneByName, DateTime DateDone);
 public record CreateWorkEventDTO
 {
     [Required]
@@ -12,7 +12,8 @@ public record CreateWorkEventDTO
     public DateTime CreatedDate { get; set; }
 }
 
-public record UpdateWorkEventDTO : CreateWorkEventDTO
+public record UpdateWorkEventDTO
 {
     public UserDTO? DoneBy { get; set; }
+    public DateTime DateDone { get; set; }
 }
