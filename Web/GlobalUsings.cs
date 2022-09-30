@@ -7,5 +7,6 @@ global using Microsoft.Identity.Web.Resource;
 
 global using Infrastructure;
 global using Core;
+global using Web.Model;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.Identity.Web;

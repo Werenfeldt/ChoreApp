@@ -5,13 +5,14 @@ public record FamilyDetailsDTO(Guid Id, string? Name, IReadOnlyCollection<ChoreD
 
 public record CreateFamilyDTO
 {
+    public Guid Id { get; set; }
+    
     [StringLength(50)]
     public string? Name { get; set; }
 }
 
 public record UpdateFamilyDTO : CreateFamilyDTO
 {
-    public string? Id { get; set; }
 
     public ICollection<ChoreDTO>? Chores { get; set; }
 

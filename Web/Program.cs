@@ -11,17 +11,19 @@ builder.Configuration.AddKeyPerFile("/run/secrets", optional: true);
 
 
 // Add services to the container.
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+
 builder.Services.AddDbContext<ChoreAppContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ChoreApp")));
 
 builder.Services.AddScoped<IChoreAppContext, ChoreAppContext>();
 builder.Services.AddScoped<IChoreRepository, ChoreRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IFamilyRepository, FamilyRepository>();
-//builder.Services.AddScoped<IWorkEventRepository, WorkEventRepository>();
-//builder.Services.AddScoped<IWorkTimeSlotRepository, WorkTimeSlotRepository>();
+builder.Services.AddScoped<IWorkEventRepository, WorkEventRepository>();
+builder.Services.AddScoped<IWorkTimeSlotRepository, WorkTimeSlotRepository>();
 
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
+
 builder.Services.AddSingleton<WeatherForecastService>();
 
 // builder.Services.AddSwaggerGen(c =>
