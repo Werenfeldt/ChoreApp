@@ -2,7 +2,8 @@ namespace Core;
 
 public class WorkEvent
 {
-    public Guid Id {get; init;}
+    [Key]
+    public Guid Id { get; init; }
     public Guid ChoreId { get; init; }
     public Guid AssignedToUserId { get; init; }
 
@@ -20,5 +21,13 @@ public class WorkEvent
     [Required]
     public Chore Chore { get; private set; }
 
-    public WorkEvent() { }
+    [Required]
+    [DataType(DataType.Date)]
+    public DateTime CreatedDate { get; set; }
+
+    public WorkEvent(){}
+    public WorkEvent(DateTime created)
+    {
+        this.CreatedDate = created;
+    }
 }

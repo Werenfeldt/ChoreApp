@@ -33,12 +33,22 @@ public class UserRepository : IUserRepository
             );
     }
 
-    public async Task<Option<UserDetailsDTO>> ReadUserByIdAsync(Guid id)
+    public async Task<Option<UserDetailsDTO>> ReadDetailedUserByIdAsync(Guid id)
     {
         var user = await _context.Users.FindAsync(id);
         if (user != null)
         {
             return new UserDetailsDTO(user.Id, user.Name, user.Age, user.Family.Name);
+        }
+        return null;
+    }
+
+    public async Task<Option<UserDTO>> ReadUserByIdAsync(Guid id)
+    {
+        var user = await _context.Users.FindAsync(id);
+        if (user != null)
+        {
+            return new UserDTO(user.Id, user.Name);
         }
         return null;
     }
