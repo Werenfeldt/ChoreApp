@@ -65,7 +65,7 @@ public class ChoreRepository : IChoreRepository
 
     public async Task<Option<ChoreDTO>> ReadChoreByIdAsync(Guid choreId)
     {
-        var entity = await _context.Chores.FirstOrDefaultAsync(c => c.Id == choreId);
+        var entity = await _context.Chores.FindAsync(choreId);
 
         if (entity != null)
         {
@@ -76,7 +76,7 @@ public class ChoreRepository : IChoreRepository
 
     public async Task<Option<ChoreDetailedDTO>> ReadDetailedChoreByIdAsync(Guid choreId)
     {
-        var entity = await _context.Chores.FirstOrDefaultAsync(c => c.Id == choreId);
+        var entity = await _context.Chores.FindAsync(choreId);
 
         if (entity != null)
         {

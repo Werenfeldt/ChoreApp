@@ -8,10 +8,11 @@ public class FamilyRepository : IFamilyRepository
     {
         _context = context;
     }
-    public async Task<FamilyDTO> CreateFamilyAsync(CreateFamilyDTO user)
+    public async Task<FamilyDTO> CreateFamilyAsync(CreateFamilyDTO family)
     {
-        var entity = new Family(user.Name)
+        var entity = new Family(family.Name)
         {
+            Id = family.Id,
             Chores = new List<Chore>(),
             Users = new List<User>()
         };

@@ -10,10 +10,14 @@ public abstract class Setup
     protected readonly ChoreRepository _choreRepository;
     protected readonly UserRepository _userRepository;
     protected readonly FamilyRepository _familyRepository;
+    protected readonly WorkTimeSlotRepository _workTimeSlotRepository;
 
+    protected readonly WorkEventRepository _workEventRepository;
     protected readonly Guid _userId;
     protected readonly Guid _choreId;
     protected readonly Guid _familyId;
+    protected readonly Guid _workTimeSlotId;
+    protected readonly Guid _workEventId;
 
     public Setup()
     {
@@ -30,14 +34,18 @@ public abstract class Setup
         _context = context;
         _contextOption = contextOption;
         _connection = connection;
+
         _choreId = Guid.NewGuid();
         _userId = Guid.NewGuid();
         _familyId = Guid.NewGuid();
+        _workTimeSlotId = Guid.NewGuid();
+        _workEventId = Guid.NewGuid();
 
         _choreRepository = new ChoreRepository(_context);
         _userRepository = new UserRepository(_context);
         _familyRepository = new FamilyRepository(_context);
-
+        _workTimeSlotRepository = new WorkTimeSlotRepository(_context);
+        _workEventRepository = new WorkEventRepository(_context);
 
         //Seeds TestDate
         Seed();
@@ -45,7 +53,7 @@ public abstract class Setup
 
     public void Seed()
     {
-        var family = new Family("Nielsen") {Id = _familyId};
+        var family = new Family("Nielsen") { Id = _familyId };
         var user = new User(_userId, "Marie Nielsen") { Family = family };
         var chore = new Chore("Støvsug", Duration.TwentyMinutes, Interval.OneWeek)
         {
@@ -53,11 +61,27 @@ public abstract class Setup
             Family = family,
             User = user
         };
+        var workTimeSlot = new WorkTimeslot(Duration.OneHour, DayOfWeek.Monday)
+        {
+            Id = _workTimeSlotId,
+            User = user,
+        };
+        var workEvent = new WorkEvent()
+        {
+            Id = _workEventId,
+            Chore = chore, 
+            DoneByUser = user, 
+            DateDone = DateTime.UtcNow, 
+            AssignedToUser = user, 
+            CreatedDate = DateTime.UtcNow
+        };
 
         _context.AddRange(
             family,
             user,
-            chore
+            chore,
+            workTimeSlot, 
+            workEvent
         );
         _context.SaveChanges();
     }

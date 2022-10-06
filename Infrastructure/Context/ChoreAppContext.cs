@@ -35,7 +35,7 @@ public class ChoreAppContext : DbContext, IChoreAppContext
             .Entity<Chore>()
             .HasIndex(p => p.Name)
             .IsUnique();
-        
+
         modelBuilder
             .Entity<WorkEvent>()
             .HasOne(w => w.AssignedToUser)
@@ -43,6 +43,6 @@ public class ChoreAppContext : DbContext, IChoreAppContext
             .OnDelete(DeleteBehavior.ClientCascade);
 
 
-        modelBuilder.Entity<WorkEvent>().HasKey(x => new { x.Id, x.AssignedToUserId, x.ChoreId });
+        //modelBuilder.Entity<WorkEvent>().HasKey(x => new { x.Id, x.AssignedToUserId, x.ChoreId });
     }
 }

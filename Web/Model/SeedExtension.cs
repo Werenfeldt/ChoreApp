@@ -22,9 +22,12 @@ public static class SeedExtension
         var userRepository = new UserRepository(context);
         var familyRepository = new FamilyRepository(context);
         var choreRepository = new ChoreRepository(context);
+        var workTimeSlotRepository = new WorkTimeSlotRepository(context);
+        
 
         var family = await familyRepository.CreateFamilyAsync(new CreateFamilyDTO
         {
+            Id = Guid.Parse("30bc356c-f2cf-42b6-961e-dfd178a50a66"),
             Name = "Nielsen"
         });
 
@@ -46,6 +49,13 @@ public static class SeedExtension
             CreatedByUserId = user.Id,
             FamilyId = family.Id,
             OneTimer = false
+        });
+
+        await workTimeSlotRepository.CreateWorkTimeSlotAsync(new CreateWorkTimeSlotDTO
+        {
+            Duration = Duration.OneHour,
+            User = user,
+            Weekday = DayOfWeek.Monday
         });
     }
 }
