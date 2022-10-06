@@ -6,7 +6,7 @@ public class Family
     public Guid Id { get; init; }
 
     [StringLength(50)]
-    public string Name { get; init; }
+    public string Name { get; set; }
 
     public ICollection<Chore>? Chores {get; set;}
 

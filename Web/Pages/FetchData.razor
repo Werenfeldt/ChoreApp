@@ -2,14 +2,14 @@
 
 <PageTitle>Weather forecast</PageTitle>
 
-@using Web.Data
-@inject WeatherForecastService ForecastService
+@using Infrastructure
+@inject IChoreRepository ChoreRepo
 
 <h1>Weather forecast</h1>
 
 <p>This component demonstrates fetching data from a service.</p>
 
-@if (forecasts == null)
+@if (chores == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -25,13 +25,10 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var chore in chores)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@chore.Name</td>
                 </tr>
             }
         </tbody>
@@ -39,10 +36,10 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private IReadOnlyCollection<ChoreDTO>? chores;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        chores = await ChoreRepo.ReadAllChoresAsync(Guid.Parse("30bc356c-f2cf-42b6-961e-dfd178a50a66"));
     }
 }

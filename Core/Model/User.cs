@@ -22,8 +22,9 @@ public class User
 
     [InverseProperty("AssignedToUser")]
     public ICollection<WorkEvent>? WorkEventsAssigned { get; set; }
-    public User(string name)
+    public User(Guid Id, string name)
     {
+        this.Id = Id;
         this.Name = name;
     }
 }
