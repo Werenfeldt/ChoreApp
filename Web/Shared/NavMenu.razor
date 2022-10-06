@@ -8,11 +8,11 @@
 </div>
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
+    <ul class="nav">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
+            <NavMenuItem Icon="home" Label="Home" class="nav-link" href="" NavLinkMatch="NavLinkMatch.All">
+                
+            </NavMenuItem>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="counter">
@@ -24,7 +24,7 @@
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
             </NavLink>
         </div>
-    </nav>
+    </ul>
 </div>
 
 @code {
