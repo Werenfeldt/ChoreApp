@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
 using Web.Data;
 using Web.Model;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ builder.Configuration.AddKeyPerFile("/run/secrets", optional: true);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddMudServices();
 
 builder.Services.AddDbContext<ChoreAppContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ChoreApp")));
 

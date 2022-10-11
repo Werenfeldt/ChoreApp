@@ -1,45 +1,42 @@
 ﻿@page "/fetchdata"
+@using Web.Data
+@inject WeatherForecastService ForecastService
 
 <PageTitle>Weather forecast</PageTitle>
 
-@using Infrastructure
-@inject IChoreRepository ChoreRepo
-
-<h1>Weather forecast</h1>
-
-<p>This component demonstrates fetching data from a service.</p>
-
-@if (chores == null)
+<MudText Typo="Typo.h3" GutterBottom="true">Weather forecast</MudText>
+<MudText Class="mb-8">This component demonstrates fetching data from the server.</MudText>
+@if (forecasts == null)
 {
-    <p><em>Loading...</em></p>
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var chore in chores)
-            {
-                <tr>
-                    <td>@chore.Name</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <MudTable Items="forecasts" Hover="true" SortLabel="Sort By" Elevation="0">
+        <HeaderContent>
+            <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<WeatherForecast, object>(x=>x.Date)">Date</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<WeatherForecast, object>(x=>x.TemperatureC)">Temp. (C)</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<WeatherForecast, object>(x=>x.TemperatureF)">Temp. (F)</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<WeatherForecast, object>(x=>x.Summary!)">Summary</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Date">@context.Date</MudTd>
+            <MudTd DataLabel="Temp. (C)">@context.TemperatureC</MudTd>
+            <MudTd DataLabel="Temp. (F)">@context.TemperatureF</MudTd>
+            <MudTd DataLabel="Summary">@context.Summary</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[]{50, 100}" />
+        </PagerContent>
+    </MudTable>
 }
 
+
 @code {
-    private IReadOnlyCollection<ChoreDTO>? chores;
+    private WeatherForecast[]? forecasts;
 
     protected override async Task OnInitializedAsync()
     {
-        chores = await ChoreRepo.ReadAllChoresAsync(Guid.Parse("30bc356c-f2cf-42b6-961e-dfd178a50a66"));
+        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
     }
 }
