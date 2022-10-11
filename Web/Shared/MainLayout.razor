@@ -8,13 +8,13 @@
 <div>
 <MudLayout>
     <MudAppBar Elevation="0" Color=Color.Primary>
-        
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudAvatar Color="Color.Secondary" Variant="Variant.Filled">
+            <MudIcon Color="Color.Dark" Icon="@Icons.Material.Filled.Woman" Size="Size.Large" />
+        </MudAvatar>
         <MudSpacer />
-        <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Link="https://mudblazor.com/" Target="_blank" />
-        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Link="https://github.com/MudBlazor/MudBlazor/" Target="_blank" />
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Edge="Edge.Start" OnClick="@(() => DrawerToggle(Anchor.End))" />
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="1" Anchor=@anchor Variant="@DrawerVariant.Temporary" Color=Color.Secondary>
         <MudDrawerHeader>
             <MudText Typo="Typo.h6">MudBazorTry</MudText>
         </MudDrawerHeader>
@@ -29,11 +29,13 @@
 </div>
 
 @code {
-    bool _drawerOpen = true;
+    bool _drawerOpen = false;
+    Anchor anchor;
 
-    void DrawerToggle()
+    void DrawerToggle(Anchor anchor)
     {
         _drawerOpen = !_drawerOpen;
+        this.anchor = anchor;
     }
 
     MudTheme CustomTheme = new MudTheme()
@@ -45,15 +47,10 @@
             TextPrimary = "#272c34ff",
             PrimaryLighten = "rgb(255,255,255)",
             PrimaryDarken = "rgb(193,181,175)",
-
-
-            Secondary = new MudBlazor.Utilities.MudColor("#cbc5f0"),
-            SecondaryContrastText = new MudBlazor.Utilities.MudColor("#272c34ff"),
-            TextSecondary = new MudBlazor.Utilities.MudColor("#272c34ff"),
-            SecondaryLighten = "rgb(254,248,255)",
-            SecondaryDarken = "rgb(154,149,189)",
-
             
+            Secondary = Colors.DeepPurple.Lighten4,
+            TextSecondary = "#272c34ff",
+            SecondaryContrastText = "#272c34ff",
         },
     };
 }
