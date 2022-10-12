@@ -35,7 +35,7 @@ public class FamilyRepository : IFamilyRepository
             return new FamilyDetailsDTO(
                 family.Id,
                 family.Name,
-                family.Chores.Select(chore => new ChoreDTO(chore.Id, chore.Name)).ToList(),
+                family.Chores.Select(chore => new ChoreDTO(chore.Id, chore.Name, chore.Duration.ToString(), chore.Interval.ToString())).ToList(),
                 family.Users.Select(user => new UserDTO(user.Id, user.Name)).ToList()
                 );
         }
