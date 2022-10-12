@@ -14,9 +14,9 @@
         <MudSpacer />
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Edge="Edge.Start" OnClick="@(() => DrawerToggle(Anchor.End))" />
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" Elevation="1" Anchor=@anchor Variant="@DrawerVariant.Temporary" Color=Color.Secondary>
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="1" Anchor=@anchor Variant="@DrawerVariant.Temporary" Color=Color.Secondary Style="border-radius: 25px 0% 0% 25px;">
         <MudDrawerHeader>
-            <MudText Typo="Typo.h6">MudBazorTry</MudText>
+            <MudText Typo="Typo.h6">Chore</MudText>
         </MudDrawerHeader>
         <NavMenu />
     </MudDrawer>
