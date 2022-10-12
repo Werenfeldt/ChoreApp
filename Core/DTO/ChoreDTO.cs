@@ -1,5 +1,6 @@
 namespace Core;
-public record ChoreDTO(Guid Id, string? Name);
+
+public record ChoreDTO(Guid Id, string? Name, string Duration, string Interval);
 
 public record ChoreDetailedDTO(Guid Id, string? Name, string Duration, string Interval, string? Description, DateTime Created, string Onetimer);
 

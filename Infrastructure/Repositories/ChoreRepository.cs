@@ -60,7 +60,7 @@ public class ChoreRepository : IChoreRepository
     {
         var family = await _context.Families.Include(f => f.Chores).FirstOrDefaultAsync(f => f.Id ==familyId);
         
-        return family.Chores.Select(c => new ChoreDTO(c.Id, c.Name)).ToList();
+        return family.Chores.Select(c => new ChoreDTO(c.Id, c.Name, c.Duration.ToString(), c.Interval.ToString())).ToList();
     }
 
     public async Task<Option<ChoreDTO>> ReadChoreByIdAsync(Guid choreId)
@@ -69,7 +69,7 @@ public class ChoreRepository : IChoreRepository
 
         if (entity != null)
         {
-            return new ChoreDTO(entity.Id, entity.Name);
+            return new ChoreDTO(entity.Id, entity.Name, entity.Duration.ToString(), entity.Interval.ToString());
         }
         return null;
     }
