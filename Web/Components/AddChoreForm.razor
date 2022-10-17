@@ -1,0 +1,67 @@
+@using FluentValidation
+@using System.ComponentModel.DataAnnotations
+@inject IChoreRepository choreService 
+
+<MudDialog>
+    <DialogContent>
+            <MudForm Model="@chore" @ref="@form" ValidationDelay="0">
+                <MudCardContent>
+                        <MudTextField @bind-Value="chore.Name"                              
+                                    For="@(() => chore.Name)"
+                                    Immediate="true"
+                                    Label="Navn" />
+
+                        <MudTextField @bind-Value="chore.Description"
+                                    For="@(() => chore.Description)"
+                                    Immediate="true"
+                                    Label="Beskrivelse" />
+                </MudCardContent>
+                <MudCardContent Class="pa-0">
+                        <MudSelect T="string" Label="Tid" AnchorOrigin="Origin.BottomCenter">
+                            <MudSelectItem Value="@("Hej")"></MudSelectItem>
+                        </MudSelect>
+                         @*<MudSelect @bind-Value="duration" T="Duration" Label="Tid" AnchorOrigin="Origin.BottomCenter">
+                            @foreach (var item in Enum.GetNames(typeof(Duration)))
+                            {
+                                <MudSelectItem Value="@item">@item</MudSelectItem>
+                            }
+                        </MudSelect>
+                        <MudSelect T="Interval" Label="Interval" AnchorOrigin="Origin.BottomCenter">
+                            @foreach (var item in Enum.GetValues(typeof(Interval)))
+                            {
+                                <MudSelectItem Value="@item">@item</MudSelectItem>
+                            }
+                        </MudSelect> *@
+                </MudCardContent>
+                <MudCardContent>
+                    <MudSwitch @bind-Checked="@isOneTimer" Color="Color.Secondary"/>
+                </MudCardContent>
+            </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" Class="ml-auto" OnClick="@(async () => await Submit())">Tilføj</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+	[Inject] ISnackbar Snackbar { get; set; }
+
+    MudForm form;
+
+    Duration duration;
+
+    bool isOneTimer {get; set;} = false;
+
+    public CreateChoreDTO? chore = new CreateChoreDTO();
+
+    private async Task Submit()
+    {
+        await choreService.CreateChoreAsync(chore);
+
+                //var uri = $"{NavigationManager.BaseUri}MyProjects/{ShowAlert}";
+
+                //NavigationManager.NavigateTo(uri);
+        Snackbar.Add("Tilføjet!");
+    }
+}

@@ -5,12 +5,12 @@ using ChoreApp.Web.Model;
 [ApiController]
 [Route("api/[controller]")]
 //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
-public class ProjectsController : ControllerBase
+public class ChoresController : ControllerBase
 {
     //public Func<string> GetObjectId;
     private IChoreRepository _choreRepository;
 
-    public ProjectsController(IChoreRepository repo)
+    public ChoresController(IChoreRepository repo)
     {
         _choreRepository = repo;
         // GetObjectId = () =>

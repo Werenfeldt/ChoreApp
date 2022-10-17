@@ -1,16 +1,16 @@
 ﻿@page "/chores"
 
-@using System.Net.Http.Json
-@using ChoreApp.Infrastructure 
-@inject IChoreRepository ChoreRepository
+@inject IChoreRepository choreService
 @inject ISnackbar Snackbar
+@inject IDialogService DialogService
 
 <MudTable Items="@ChoreList" Hover=true Filter="new Func<ChoreDTO,bool>(FilterFunc)"
           @bind-SelectedItem="selectedItem1" SortLabel="Sort By" CommitEditTooltip="Commit Edit"
           OnCommitEditClick="@(() => Snackbar.Add("Commit Edit Handler Invoked"))"
            IsEditRowSwitchingBlocked="@blockSwitch" ApplyButtonPosition="@applyButtonPosition">
     <ToolBarContent>
-        <MudText Typo="Typo.h6">Opgaver</MudText>
+        <MudText Typo="Typo.h6" Class="pr-4">Opgaver</MudText>
+        <MudFab Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Add" Size=Size.Small @onclick="OpenAddDialog" />
         <MudSpacer />
         <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
@@ -71,13 +71,17 @@
 
     protected override async Task OnInitializedAsync()
     {
-        ChoreList = await ChoreRepository.ReadAllChoresAsync(Guid.Parse("30bc356c-f2cf-42b6-961e-dfd178a50a66"));
+        ChoreList = await choreService.ReadAllChoresAsync(Guid.Parse("30bc356c-f2cf-42b6-961e-dfd178a50a66"));
     }
 
     private void AddEditionEvent(string message)
     {
         editEvents.Add(message);
         StateHasChanged();
+    }
+
+    private void OpenAddDialog(){
+        DialogService.Show<AddChoreForm>("Tilføj");
     }
 
     @* private void BackupItem(object element)
