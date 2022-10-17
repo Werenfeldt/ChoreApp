@@ -1,4 +1,4 @@
-namespace Core;
+namespace ChoreApp.Core;
 public record UserDTO(Guid Id, string? Name);
 public record UserDetailsDTO(Guid Id, string? Name, int? Age, string FamilyName);
 public record CreateUserDTO

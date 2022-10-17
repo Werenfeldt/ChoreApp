@@ -1,4 +1,4 @@
-﻿@page "/fetchdata"
+﻿@* @page "/fetchdata"
 @using Web.Data
 @inject WeatherForecastService ForecastService
 
@@ -39,4 +39,4 @@ else
     {
         forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
     }
-}
+} *@

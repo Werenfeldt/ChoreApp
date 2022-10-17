@@ -1,4 +1,4 @@
-namespace Core;
+namespace ChoreApp.Core;
 public record WorkTimeSlotDTO(Guid Id, string Duration, string Weekday);
 
 public record CreateWorkTimeSlotDTO

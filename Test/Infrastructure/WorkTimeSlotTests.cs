@@ -1,4 +1,4 @@
-namespace Test;
+namespace ChoreApp.Test;
 
 public class WorkTimeSlotRepositoryTests : Setup, IDisposable
 {

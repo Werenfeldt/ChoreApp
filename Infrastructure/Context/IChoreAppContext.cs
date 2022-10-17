@@ -1,4 +1,4 @@
-namespace Infrastructure;
+namespace ChoreApp.Infrastructure;
 public interface IChoreAppContext : IDisposable
 {
     DbSet<Family> Families { get; }

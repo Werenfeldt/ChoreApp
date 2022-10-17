@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
-using Web.Data;
-using Web.Model;
+using ChoreApp.Web.Model;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,9 +23,6 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IFamilyRepository, FamilyRepository>();
 builder.Services.AddScoped<IWorkEventRepository, WorkEventRepository>();
 builder.Services.AddScoped<IWorkTimeSlotRepository, WorkTimeSlotRepository>();
-
-
-builder.Services.AddSingleton<WeatherForecastService>();
 
 // builder.Services.AddSwaggerGen(c =>
 // {

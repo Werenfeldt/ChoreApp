@@ -1,4 +1,4 @@
-namespace Web.Model;
+namespace ChoreApp.Web.Model;
 
 public static class SeedExtension
 {

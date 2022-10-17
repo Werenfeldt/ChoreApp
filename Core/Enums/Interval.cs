@@ -1,4 +1,4 @@
-namespace Core;
+namespace ChoreApp.Core;
 
 public enum Interval
 {

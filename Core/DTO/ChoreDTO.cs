@@ -1,4 +1,4 @@
-namespace Core;
+namespace ChoreApp.Core;
 
 public record ChoreDTO(Guid Id, string? Name, string Duration, string Interval);
 

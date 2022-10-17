@@ -1,5 +1,5 @@
 
-namespace Core;
+namespace ChoreApp.Core;
 
 public class Chore
 {

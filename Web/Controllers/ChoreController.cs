@@ -1,18 +1,20 @@
-namespace Web.Controllers;
-[Authorize]
+namespace ChoreApp.Web.Controllers;
+using ChoreApp.Web.Model;
+
+//[Authorize]
 [ApiController]
 [Route("api/[controller]")]
-[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+//[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 public class ProjectsController : ControllerBase
 {
-    public Func<string> GetObjectId;
+    //public Func<string> GetObjectId;
     private IChoreRepository _choreRepository;
 
     public ProjectsController(IChoreRepository repo)
     {
         _choreRepository = repo;
-        GetObjectId = () =>
-            User.GetObjectId() == null ? "1" : User.GetObjectId();
+        // GetObjectId = () =>
+        //     User.GetObjectId() == null ? "1" : User.GetObjectId();
     }
 
     [HttpGet]
@@ -42,7 +44,6 @@ public class ProjectsController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    [Authorize(Roles = "Supervisor")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Put(Guid id, [FromBody] UpdateChoreDTO chore)
