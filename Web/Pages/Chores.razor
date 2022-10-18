@@ -4,7 +4,37 @@
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
 
-<MudTable Items="@ChoreList" Hover=true Filter="new Func<ChoreDTO,bool>(FilterFunc)"
+<MudDataGrid T="ChoreDTO" Items="@ChoreList" Hover=true EditMode="DataGridEditMode.Form" 
+            EditTrigger="@DataGridEditTrigger.Manual"
+            >
+    <ToolBarContent>
+        <MudText Typo="Typo.h6" Class="pr-4">Opgaver</MudText>
+        <MudFab Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Add" Size=Size.Small OnClick="@((e) => OpenAddDialog(dialogOption))" />
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <Columns>
+        <Column T="ChoreDTO" Field="Name" Title="Navn"/>
+        <Column T="ChoreDTO" Field="Duration" Title ="Tid" />
+        <Column T="ChoreDTO" Field="Interval">
+            @* <EditTemplate>
+                <MudSelect @bind-Value="context.Item.Interval" Required RequiredError="You must select a Position!!!" Margin="@Margin.Dense">
+                    @foreach (Duration item in Enum.GetValues(typeof(Duration)))
+                        {
+                            <MudSelectItem Value="@item">@item</MudSelectItem>
+                        }
+                </MudSelect>
+            </EditTemplate> *@
+        </Column>
+        <Column T="ChoreDTO" CellClass="d-flex justify-end">
+            <CellTemplate>
+                <MudIconButton Size="@Size.Small" Icon="@Icons.Outlined.Edit" OnClick="@context.Actions.StartEditingItem" />
+            </CellTemplate>
+        </Column> 
+    </Columns>
+</MudDataGrid>
+
+@* <MudTable Items="@ChoreList" Hover=true Filter="new Func<ChoreDTO,bool>(FilterFunc)"
           @bind-SelectedItem="selectedItem1" SortLabel="Sort By" CommitEditTooltip="Commit Edit"
           OnCommitEditClick="@(() => Snackbar.Add("Commit Edit Handler Invoked"))"
            IsEditRowSwitchingBlocked="@blockSwitch" ApplyButtonPosition="@applyButtonPosition">
@@ -39,34 +69,14 @@
         <MudTd DataLabel="Duration">@context.Duration</MudTd>
         <MudTd DataLabel="Interval">@context.Interval</MudTd>
     </RowTemplate>
-    @* <RowEditingTemplate>
-        <MudTd DataLabel="Nr">@context.Number</MudTd>
-        <MudTd DataLabel="Sign">
-            <MudTextField @bind-Value="@context.Sign" Required />
-        </MudTd>
-        <MudTd DataLabel="Name">
-            <MudTextField @bind-Value="@context.Name" Required />
-        </MudTd>
-        <MudTd DataLabel="Position">
-            <MudNumericField @bind-Value="@context.Position" Required Min="1" />
-        </MudTd>
-        <MudTd DataLabel="Molar mass">
-            <MudTextField @bind-Value="@context.Molar" Required />
-        </MudTd>
-    </RowEditingTemplate> *@
     <PagerContent>
         <MudTablePager />
     </PagerContent>
-</MudTable>
+</MudTable> *@
 
 @code {
-	private List<string> editEvents = new();
-	private bool blockSwitch = false;
 	private string searchString = "";
-	private ChoreDTO selectedItem1 = null;
-	private ChoreDTO elementBeforeEdit;
-	private HashSet<ChoreDTO> selectedItems1 = new HashSet<ChoreDTO>();
-	private TableApplyButtonPosition applyButtonPosition = TableApplyButtonPosition.End;
+
 	private IEnumerable<ChoreDTO> ChoreList = new List<ChoreDTO>();
 
     DialogOptions dialogOption = new DialogOptions() { MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
@@ -74,12 +84,6 @@
     protected override async Task OnInitializedAsync()
     {
         ChoreList = await choreService.ReadAllChoresAsync(Guid.Parse("30bc356c-f2cf-42b6-961e-dfd178a50a66"));
-    }
-
-    private void AddEditionEvent(string message)
-    {
-        editEvents.Add(message);
-        StateHasChanged();
     }
 
     private async Task OpenAddDialog(DialogOptions options){
@@ -92,23 +96,6 @@
             ChoreList = await choreService.ReadAllChoresAsync(Guid.Parse("30bc356c-f2cf-42b6-961e-dfd178a50a66"));
         }
     }
-
-    @* private void BackupItem(object element)
-    {
-        elementBeforeEdit = new()
-        {
-            Sign = ((Element)element).Sign,
-            Name = ((Element)element).Name,
-            Molar = ((Element)element).Molar,
-            Position = ((Element)element).Position
-        };
-        AddEditionEvent($"RowEditPreview event: made a backup of Element {((Element)element).Name}");
-    } *@
-
-    @* private void ItemHasBeenCommitted(object element)
-    {
-        AddEditionEvent($"RowEditCommit event: Changes to Element {((Element)element).Name} committed");
-    } *@
 
     private bool FilterFunc(ChoreDTO chore)
     {
