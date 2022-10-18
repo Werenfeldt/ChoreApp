@@ -1,4 +1,4 @@
-namespace Test;
+namespace ChoreApp.Test;
 
 public class FamilyRepositoryTests : Setup, IDisposable
 {
@@ -27,7 +27,7 @@ public class FamilyRepositoryTests : Setup, IDisposable
         // Given
         CreateTestContext();
 
-        var expected = new FamilyDetailsDTO(_familyId, "Nielsen", new List<ChoreDTO>() { new ChoreDTO(_choreId, "Støvsug") }, new List<UserDTO>() { new UserDTO(_userId, "Marie Nielsen") });
+        var expected = new FamilyDetailsDTO(_familyId, "Nielsen", new List<ChoreDTO>() { new ChoreDTO(_choreId, "Støvsug", Duration.TwentyMinutes.ToString(), Interval.OneWeek.ToString()) }, new List<UserDTO>() { new UserDTO(_userId, "Marie Nielsen") });
 
         // When
         var actual = await _familyRepository.ReadFamilyByIdAsync(_familyId);

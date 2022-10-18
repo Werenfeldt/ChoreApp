@@ -1,4 +1,4 @@
-namespace Core;
+namespace ChoreApp.Core;
 
 public record ChoreDTO(Guid Id, string? Name, string Duration, string Interval);
 
@@ -16,11 +16,11 @@ public record CreateChoreDTO
     public string? Description { get; set; }
 
     [DataType(DataType.Date)]
-    public DateTime? Created { get; init; }
+    public DateTime? Created { get; set; }
 
-    public Guid? CreatedByUserId { get; init; }
+    public Guid? CreatedByUserId { get; set; }
 
-    public Guid FamilyId { get; init; }
+    public Guid FamilyId { get; set; }
     public bool OneTimer { get; set; }
 }
 

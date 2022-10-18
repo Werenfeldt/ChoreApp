@@ -1,4 +1,4 @@
-namespace Core;
+namespace ChoreApp.Core;
 public record FamilyDTO(Guid Id, string? Name);
 
 public record FamilyDetailsDTO(Guid Id, string? Name, IReadOnlyCollection<ChoreDTO>? Chores, IReadOnlyCollection<UserDTO>? FamilyMembers);

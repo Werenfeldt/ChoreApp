@@ -1,4 +1,4 @@
-namespace Core;
+namespace ChoreApp.Core;
 public record WorkEventDTO(Guid Id, string ChoreName, string AssignedToName, DateTime CreatedDate);
 public record WorkEventDetailedDTO(Guid Id, string ChoreName, string AssignedToName, DateTime CreatedDate, string DoneByName, DateTime DateDone);
 public record CreateWorkEventDTO

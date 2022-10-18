@@ -1,5 +1,5 @@
 
-namespace Test;
+namespace ChoreApp.Test;
 public abstract class Setup
 {
     protected readonly DbContextOptions<Infrastructure.ChoreAppContext> _contextOption;

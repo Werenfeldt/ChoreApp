@@ -1,5 +1,5 @@
 //Copied from ondFisk
-namespace Core;
+namespace ChoreApp.Core;
 
 public struct Option<T> where T : class
 {

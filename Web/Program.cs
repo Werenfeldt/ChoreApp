@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
-using Web.Data;
-using Web.Model;
+using ChoreApp.Web.Model;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +13,9 @@ builder.Configuration.AddKeyPerFile("/run/secrets", optional: true);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddControllers();
 builder.Services.AddMudServices();
+builder.Services.AddHttpClient();
 
 builder.Services.AddDbContext<ChoreAppContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ChoreApp")));
 
@@ -24,9 +25,6 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IFamilyRepository, FamilyRepository>();
 builder.Services.AddScoped<IWorkEventRepository, WorkEventRepository>();
 builder.Services.AddScoped<IWorkTimeSlotRepository, WorkTimeSlotRepository>();
-
-
-builder.Services.AddSingleton<WeatherForecastService>();
 
 // builder.Services.AddSwaggerGen(c =>
 // {
@@ -54,6 +52,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 

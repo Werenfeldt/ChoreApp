@@ -1,4 +1,4 @@
-namespace Infrastructure;
+namespace ChoreApp.Infrastructure;
 
 public class WorkTimeSlotRepository : IWorkTimeSlotRepository
 {
