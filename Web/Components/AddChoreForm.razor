@@ -4,42 +4,39 @@
 
 <MudDialog>
     <DialogContent>
-            <MudForm Model="@chore" @ref="@form" ValidationDelay="0">
-                <MudCardContent>
-                        <MudTextField @bind-Value="chore.Name"                              
-                                    For="@(() => chore.Name)"
-                                    Immediate="true"
-                                    Label="Navn" />
+            <MudForm Model="@chore" @ref="@form" @bind-IsValid="@success">
+                <MudTextField @bind-Value="chore.Name"                              
+                            For="@(() => chore.Name)"
+                            Immediate="true"
+                            Label="Navn" 
+                            Required="true"
+                            RequiredError="Opgaven skal have et navn"
+                            />
 
-                        <MudTextField @bind-Value="chore.Description"
-                                    For="@(() => chore.Description)"
-                                    Immediate="true"
-                                    Label="Beskrivelse" />
-                </MudCardContent>
-                <MudCardContent Class="pa-0">
-                        <MudSelect T="string" Label="Tid" AnchorOrigin="Origin.BottomCenter">
-                            <MudSelectItem Value="@("Hej")"></MudSelectItem>
-                        </MudSelect>
-                         @*<MudSelect @bind-Value="duration" T="Duration" Label="Tid" AnchorOrigin="Origin.BottomCenter">
-                            @foreach (var item in Enum.GetNames(typeof(Duration)))
-                            {
-                                <MudSelectItem Value="@item">@item</MudSelectItem>
-                            }
-                        </MudSelect>
-                        <MudSelect T="Interval" Label="Interval" AnchorOrigin="Origin.BottomCenter">
-                            @foreach (var item in Enum.GetValues(typeof(Interval)))
-                            {
-                                <MudSelectItem Value="@item">@item</MudSelectItem>
-                            }
-                        </MudSelect> *@
-                </MudCardContent>
-                <MudCardContent>
-                    <MudSwitch @bind-Checked="@isOneTimer" Color="Color.Secondary"/>
-                </MudCardContent>
+                <MudTextField @bind-Value="chore.Description"
+                            For="@(() => chore.Description)"
+                            Immediate="true"
+                            Label="Beskrivelse" />
+                <MudPaper Class="d-flex ma-4" Elevation=0>
+                    <MudSelect Class="pa-5" @bind-Value="duration" Label="Tid" AnchorOrigin="Origin.BottomCenter" Required=true Variant="Variant.Outlined">
+                        @foreach (Duration item in Enum.GetValues(typeof(Duration)))
+                        {
+                            <MudSelectItem Value="@item">@item</MudSelectItem>
+                        }
+                    </MudSelect>
+                    <MudSelect Class="pa-5" @bind-Value="interval" Label="Interval" AnchorOrigin="Origin.BottomCenter" Required=true Variant="Variant.Outlined">
+                        @foreach (Interval item in Enum.GetValues(typeof(Interval)))
+                        {
+                            <MudSelectItem Value="@item">@item</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudPaper>
+            <MudSwitch @bind-Checked="@isOneTimer" Color="Color.Secondary" Label="Engangsopgave" LabelPosition="LabelPosition.Start"/>
             </MudForm>
     </DialogContent>
     <DialogActions>
-        <MudButton Variant="Variant.Filled" Color="Color.Secondary" Class="ml-auto" OnClick="@(async () => await Submit())">Tilføj</MudButton>
+        <MudButton Variant="Variant.Filled"  OnClick="Cancel">Afbryd</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@(!success)" OnClick="@(async () => await Submit())">Tilføj</MudButton>
     </DialogActions>
 </MudDialog>
 
@@ -49,7 +46,10 @@
 
     MudForm form;
 
-    Duration duration;
+    bool success;
+
+    private Duration duration { get; set; } 
+    private Interval interval { get; set; }
 
     bool isOneTimer {get; set;} = false;
 
@@ -57,11 +57,15 @@
 
     private async Task Submit()
     {
+        chore.FamilyId = Guid.Parse("30bc356c-f2cf-42b6-961e-dfd178a50a66");
         await choreService.CreateChoreAsync(chore);
 
                 //var uri = $"{NavigationManager.BaseUri}MyProjects/{ShowAlert}";
 
                 //NavigationManager.NavigateTo(uri);
+        MudDialog.Close(DialogResult.Ok(true));
         Snackbar.Add("Tilføjet!");
     }
+
+    private void Cancel() => MudDialog.Cancel();
 }

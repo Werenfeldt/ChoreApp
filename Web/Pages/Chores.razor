@@ -10,7 +10,7 @@
            IsEditRowSwitchingBlocked="@blockSwitch" ApplyButtonPosition="@applyButtonPosition">
     <ToolBarContent>
         <MudText Typo="Typo.h6" Class="pr-4">Opgaver</MudText>
-        <MudFab Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Add" Size=Size.Small @onclick="OpenAddDialog" />
+        <MudFab Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Add" Size=Size.Small OnClick="@((e) => OpenAddDialog(dialogOption))" />
         <MudSpacer />
         <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
@@ -69,6 +69,8 @@
 	private TableApplyButtonPosition applyButtonPosition = TableApplyButtonPosition.End;
 	private IEnumerable<ChoreDTO> ChoreList = new List<ChoreDTO>();
 
+    DialogOptions dialogOption = new DialogOptions() { MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
+
     protected override async Task OnInitializedAsync()
     {
         ChoreList = await choreService.ReadAllChoresAsync(Guid.Parse("30bc356c-f2cf-42b6-961e-dfd178a50a66"));
@@ -80,8 +82,15 @@
         StateHasChanged();
     }
 
-    private void OpenAddDialog(){
-        DialogService.Show<AddChoreForm>("Tilføj");
+    private async Task OpenAddDialog(DialogOptions options){
+        var dialog = DialogService.Show<AddChoreForm>("Tilføj Opgave", options);
+
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            ChoreList = await choreService.ReadAllChoresAsync(Guid.Parse("30bc356c-f2cf-42b6-961e-dfd178a50a66"));
+        }
     }
 
     @* private void BackupItem(object element)
